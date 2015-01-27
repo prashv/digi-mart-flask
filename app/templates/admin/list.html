@@ -1,0 +1,20 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+  <table  class="table table-bordered table-striped">
+    <thead>
+      <th>Product</th>
+      <th>Created</th>
+      <th>Actions</th>
+    </thead>
+    <tbody>
+    {% for product in products %}
+      <tr>
+        <th><a href="{{ url_for('admin.edit', slug=product.slug) }}">{{ product.product }}</a></th>
+        <td>{{ product.created_at.strftime('%Y-%m-%d') }}</td>
+        <td><a href="{{ url_for("admin.edit", slug=product.slug) }}" class="btn primary">Edit</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

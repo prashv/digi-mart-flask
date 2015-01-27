@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for product in products %}
+      <h2><a href="{{ url_for('products.detail', slug=product.slug) }}">{{ product.product }}</a></h2>
+      {% if product.sub_product %}
+        {% if product.sub_product %}
+          <blockquote>{{ product.sub_product|truncate(100) }}</blockquote>
+          <p>{{ product.brand }}</p>
+        {% else %}
+          <p>{{ product.brand|truncate(100) }}</p>
+        {% endif %}
+      {% endif %}
+      {% if product.embed_code %}
+        {{ product.embed_code|safe() }}
+      {% endif %}
+      {% if product.image_url %}
+        <p><img src="{{ product.image_url }}" /><p>
+      {% endif %}
+      <p>
+        {{ product.created_at.strftime('%H:%M %Y-%m-%d') }} |
+        {% with total=product.reviews|length %}
+            {{ total }} review {%- if total > 1 %}s{%- endif -%}
+        {% endwith %}
+      </p>
+    {% endfor %}
+{% endblock %}

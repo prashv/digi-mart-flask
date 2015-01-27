@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% import '_forms.html' as forms %}
+
+{% block page_header %}
+  <div class="page-header">
+    <h1>{{ product.product }}</h1>
+  </div>
+{% endblock %}
+
+{% block content %}
+  {% if product.sub_product %}
+    {% if product.sub_product %}
+      <blockquote>{{ product.sub_product }}</blockquote>
+      <p>{{ product.brand }}</p>
+    {% else %}
+      <p>{{ product.brand }}</p>
+    {% endif %}
+  {% endif %}
+  {% if product.embed_code %}
+    {{ product.embed_code|safe() }}
+  {% endif %}
+  {% if product.image_url %}
+    <p><img src="{{ product.image_url }}" /><p>
+  {% endif %}
+  <p>{{ product.created_at.strftime('%H:%M %Y-%m-%d') }}</p>
+  <hr>
+  <h2>Reviews</h2>
+  {% if product.reviews %}
+    {% for review in product.reviews %}
+       <p>{{ review.body }}</p>
+       <p><strong>{{ review.username }}</strong> <small>on {{ review.created_at.strftime('%H:%M %Y-%m-%d') }}</small></p>
+      {{ review.body }}
+    {% endfor %}
+  {% endif %}
+  <hr>
+  <h2>Add a review</h2>
+  <form action="." method="post">
+    {{ forms.render(form) }}
+    <div class="actions">
+      <input type="submit" class="btn btn-primary" value="review">
+    </div>
+  </form>
+  <hr>
+{% endblock %}
